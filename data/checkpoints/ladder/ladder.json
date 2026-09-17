@@ -1,0 +1,115 @@
+{
+  "method": "rollout_noise_calibration",
+  "noise_from_monotone_fit": true,
+  "task": "Lift",
+  "algo": "bc_rnn",
+  "base_checkpoint": "bc_rnn_Lift_ladder_base.pth",
+  "noise_baked": true,
+  "horizon": 300,
+  "select_episodes": 50,
+  "verify_episodes": 100,
+  "seed": 0,
+  "created": 1789138957.885928,
+  "note": "every rung is the same policy at a different rollout action-noise level, so competence is the only thing that varies; selection and verification use disjoint initial-state sets",
+  "rungs": [
+    {
+      "target": 0.0,
+      "action_noise_std": 0.45,
+      "select_success": 0.02,
+      "verified_success": 0.02,
+      "verified_se": 0.014,
+      "mean_steps": 295.2,
+      "checkpoint": "bc_rnn_Lift_p000.pth"
+    },
+    {
+      "target": 0.1,
+      "action_noise_std": 0.21563,
+      "select_success": 0.08,
+      "verified_success": 0.17,
+      "verified_se": 0.0375632799419859,
+      "mean_steps": 258.06,
+      "checkpoint": "bc_rnn_Lift_p010.pth"
+    },
+    {
+      "target": 0.2,
+      "action_noise_std": 0.17813,
+      "select_success": 0.22,
+      "verified_success": 0.23,
+      "verified_se": 0.042083250825001625,
+      "mean_steps": 243.28,
+      "checkpoint": "bc_rnn_Lift_p020.pth"
+    },
+    {
+      "target": 0.3,
+      "action_noise_std": 0.14766,
+      "select_success": 0.26,
+      "verified_success": 0.25,
+      "verified_se": 0.04330127018922193,
+      "mean_steps": 237.27,
+      "checkpoint": "bc_rnn_Lift_p030.pth"
+    },
+    {
+      "target": 0.4,
+      "action_noise_std": 0.11109,
+      "select_success": 0.38,
+      "verified_success": 0.43,
+      "verified_se": 0.04950757517794625,
+      "mean_steps": 192.69,
+      "checkpoint": "bc_rnn_Lift_p040.pth"
+    },
+    {
+      "target": 0.5,
+      "action_noise_std": 0.10371,
+      "select_success": 0.48,
+      "verified_success": 0.45,
+      "verified_se": 0.049749371855331,
+      "mean_steps": 188.12,
+      "checkpoint": "bc_rnn_Lift_p050.pth"
+    },
+    {
+      "target": 0.6,
+      "action_noise_std": 0.08907,
+      "select_success": 0.62,
+      "verified_success": 0.57,
+      "verified_se": 0.04950757517794625,
+      "mean_steps": 157.46,
+      "checkpoint": "bc_rnn_Lift_p060.pth"
+    },
+    {
+      "target": 0.7,
+      "action_noise_std": 0.07734,
+      "select_success": 0.7,
+      "verified_success": 0.71,
+      "verified_se": 0.04537620521815371,
+      "mean_steps": 121.06,
+      "checkpoint": "bc_rnn_Lift_p070.pth"
+    },
+    {
+      "target": 0.8,
+      "action_noise_std": 0.05625,
+      "select_success": 0.8,
+      "verified_success": 0.8,
+      "verified_se": 0.04,
+      "mean_steps": 97.3,
+      "checkpoint": "bc_rnn_Lift_p080.pth"
+    },
+    {
+      "target": 0.9,
+      "action_noise_std": 0.04219,
+      "select_success": 0.9,
+      "verified_success": 0.93,
+      "verified_se": 0.02551470164434614,
+      "mean_steps": 63.72,
+      "checkpoint": "bc_rnn_Lift_p090.pth"
+    },
+    {
+      "target": 1.0,
+      "action_noise_std": 0.0,
+      "select_success": 1.0,
+      "verified_success": 1.0,
+      "verified_se": 0.0,
+      "mean_steps": 43.85,
+      "checkpoint": "bc_rnn_Lift_p100.pth"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{"t": 1789054815.698219, "session_id": "1789054815_df65ee", "event": "session_start", "participant_id": "p_97b3679cf8", "condition": "noncontingent", "two_phase": true, "mode": "dagger", "algo": "bc_rnn", "env": "Lift", "platform": "macOS-14.6-arm64-arm-64bit", "python": "3.10.21"}
+{"t": 1789054815.701323, "session_id": "1789054815_df65ee", "event": "web_session", "participant_id": "p_97b3679cf8", "condition": "noncontingent", "two_phase": true, "recruitment": {}}
+{"t": 1789054817.963948, "session_id": "1789054815_df65ee", "event": "intervention_start", "round": 0, "step": 0}
+{"t": 1789054830.928292, "session_id": "1789054815_df65ee", "event": "practice_episode", "attempt": 0, "success": true, "steps": 259, "seconds": 12.964417934417725, "keypresses": 13, "gave_up": false}
+{"t": 1789054830.9284952, "session_id": "1789054815_df65ee", "event": "practice_passed", "successes": 1}
+{"t": 1789054840.288667, "session_id": "1789054815_df65ee", "event": "round_start", "round": 0, "phase": 1, "condition": "noncontingent", "commit_update": false, "action_noise_std": 0.0, "reason": "update computed then discarded (non-contingent)"}
+{"t": 1789054840.29146, "session_id": "1789054815_df65ee", "event": "intervention_start", "round": 0, "step": 0}
+{"t": 1789054867.294252, "session_id": "1789054815_df65ee", "event": "policy_update", "round": 0, "steps": 300, "seconds": 4.593, "loss_start": -15.030230840047201, "loss_end": -25.911300913492838, "loss_delta": -10.881070073445636, "committed": false, "num_samples": 300, "note": "sham update rolled back", "m_log_probs": 25.911300913492838, "m_action_loss": -25.911300913492838, "m_nll": -25.911300913492838}

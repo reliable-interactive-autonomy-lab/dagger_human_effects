@@ -1,0 +1,4 @@
+{"t": 1789069408.8605068, "session_id": "1789069408_702d62", "event": "session_start", "participant_id": "p_202501a365", "condition": "noncontingent", "two_phase": false, "mode": "dagger", "algo": "bc_rnn", "env": "Lift", "platform": "macOS-14.6-arm64-arm-64bit", "python": "3.10.21"}
+{"t": 1789069408.86639, "session_id": "1789069408_702d62", "event": "web_session", "participant_id": "p_202501a365", "condition": "noncontingent", "two_phase": false, "recruitment": {}}
+{"t": 1789069411.5950341, "session_id": "1789069408_702d62", "event": "intervention_start", "round": 0, "step": 0}
+{"t": 1789069426.6223948, "session_id": "1789069408_702d62", "event": "practice_episode", "attempt": 0, "success": false, "steps": 300, "seconds": 15.02743911743164, "keypresses": 1, "gave_up": false}

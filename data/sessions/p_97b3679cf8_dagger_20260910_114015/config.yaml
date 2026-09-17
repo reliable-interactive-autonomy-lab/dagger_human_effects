@@ -1,0 +1,104 @@
+mode: dagger
+env:
+  env_name: Lift
+  robots: Panda
+  controller: null
+  control_freq: 20
+  horizon: 300
+  reward_shaping: false
+  low_dim_keys:
+  - robot0_eef_pos
+  - robot0_eef_quat
+  - robot0_gripper_qpos
+  - object
+  image_keys: []
+  camera_names:
+  - agentview
+  - robot0_eye_in_hand
+  camera_height: 84
+  camera_width: 84
+  obs_key_aliases:
+    object: object-state
+  legacy_object_state: true
+  render_camera: agentview
+  render_height: 384
+  render_width: 384
+  seed: null
+teleop:
+  pos_sensitivity: 1.0
+  rot_sensitivity: 1.0
+  smoothing: 0.45
+  hold_to_intervene: false
+  window_scale: 1.0
+  show_second_view: true
+  fps_cap: 20
+policy:
+  algo: bc_rnn
+  mlp_layer_dims: []
+  rnn_hidden_dim: 400
+  rnn_num_layers: 2
+  num_modes: 5
+  min_std: 0.0001
+  std_activation: softplus
+  low_noise_eval: true
+  seq_length: 10
+  use_gmm: true
+  chunk_size: 20
+  act_hidden_dim: 512
+  act_n_heads: 8
+  act_enc_layers: 4
+  act_dec_layers: 1
+  act_latent_dim: 32
+  act_kl_weight: 10.0
+  act_dropout: 0.1
+  temporal_agg: true
+  temporal_agg_k: 0.01
+  lora:
+    enabled: true
+    rank: 8
+    alpha: 16.0
+    dropout: 0.0
+    target_substrings: []
+    adapt_rnn: true
+    train_biases: true
+    train_output_head: false
+train:
+  device: cpu
+  lr: 0.001
+  base_lr: 0.0001
+  weight_decay: 0.0
+  batch_size: 32
+  finetune_steps: 300
+  finetune_max_seconds: 20.0
+  finetune_min_seconds: 12.0
+  grad_clip: 10.0
+  pretrain_epochs: 100
+  pretrain_steps_per_epoch: 100
+  new_data_prob: 0.5
+  num_workers: 0
+  seed: 0
+study:
+  participant_id: p_97b3679cf8
+  condition: noncontingent
+  two_phase: true
+  phase1_rounds: 4
+  phase2_rounds: 4
+  phase2_condition: responsive
+  num_rounds: 8
+  rollouts_per_round: 1
+  sham_success_cap: 0.0
+  degrade_noise_std: 0.02
+  degrade_growth: 0.015
+  survey_enabled: true
+  survey_every_n_rounds: 1
+  show_progress_feedback: true
+  seed: 0
+paths:
+  root: data
+  demos: data/demos
+  checkpoints: data/checkpoints
+  sessions: data/sessions
+  logs: data/logs
+base_checkpoint: data/checkpoints/bc_rnn_Lift_study.pth
+demo_dataset: null
+record_video: true

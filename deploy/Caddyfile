@@ -1,0 +1,45 @@
+# Caddy handles TLS automatically, which matters here: browsers only allow
+# WebSockets from an https page over wss, and the client picks the scheme from
+# location.protocol.
+{$STUDY_DOMAIN} {
+	encode zstd gzip
+
+	# WebSocket frames are already JPEG-compressed; don't re-encode them, and
+	# allow long-lived connections (a session runs 20-30 minutes).
+	@ws {
+		path /ws/*
+	}
+	handle @ws {
+		reverse_proxy study:8000 {
+			transport http {
+				read_timeout 2h
+				write_timeout 2h
+			}
+		}
+	}
+
+	# The admin page is token-gated in the app, but keep it off the public
+	# internet as well if you can - restrict by source IP here.
+	# @admin path /admin /api/admin/*
+	# handle @admin {
+	#     @notallowed not remote_ip 203.0.113.0/24
+	#     respond @notallowed 403
+	#     reverse_proxy study:8000
+	# }
+
+	handle {
+		reverse_proxy study:8000
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		-Server
+	}
+
+	log {
+		output file /data/access.log
+		format json
+	}
+}

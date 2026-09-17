@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Study admin</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="root">
+  <h1>Study admin</h1>
+  <p class="muted">Append <code>?token=…</code> to this URL, or paste the token below.</p>
+  <div class="row">
+    <input id="tok" placeholder="admin token" style="flex:1;min-width:260px;padding:10px;
+      background:#15151a;color:#e8e8ee;border:1px solid #2e2e38;border-radius:8px;font:inherit">
+    <button onclick="refresh()">Refresh</button>
+    <label class="muted" style="display:flex;gap:6px;align-items:center">
+      <input type="checkbox" id="auto" checked> auto
+    </label>
+  </div>
+  <div id="out" style="margin-top:22px"></div>
+</div>
+<script>
+const qs = new URLSearchParams(location.search);
+if (qs.get('token')) document.getElementById('tok').value = qs.get('token');
+
+function esc(s){ return String(s ?? '').replace(/[&<>"]/g, c => (
+  {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+async function refresh(){
+  const token = document.getElementById('tok').value.trim();
+  const out = document.getElementById('out');
+  if (!token) { out.innerHTML = '<p class="muted">Enter the admin token.</p>'; return; }
+  let r;
+  try { r = await fetch('/api/admin/status?token=' + encodeURIComponent(token)); }
+  catch (e) { out.innerHTML = '<p class="warn">server unreachable</p>'; return; }
+  if (!r.ok) { out.innerHTML = '<p class="warn">'+r.status+' — bad token?</p>'; return; }
+  const s = await r.json();
+  const counts = Object.entries(s.assignment_counts)
+    .map(([k,v]) => `<b>${esc(k)}</b> ${v}`).join(' &nbsp;·&nbsp; ');
+  const rows = s.sessions.map(x => `<tr>
+      <td><code>${esc(x.sid.slice(0,8))}</code></td>
+      <td>${esc(x.participant_id)}</td>
+      <td>${x.connected ? '<span style="color:#5ad282">yes</span>'
+                        : '<span style="color:#eb5a5a">no</span>'}</td>
+      <td>${x.alive ? 'running' : 'dead'}${x.finished ? ' (done)' : ''}</td>
+      <td>${esc(x.last_event)}</td>
+      <td>${x.age_seconds}s</td>
+      <td><button class="ghost" onclick="detail('${esc(x.sid)}')">details</button>
+          <button class="ghost" onclick="stop('${esc(x.sid)}')">stop</button></td>
+    </tr>`).join('');
+  out.innerHTML = `
+    <p>Active <b>${s.active}</b> / ${s.capacity} &nbsp;·&nbsp; assignment: ${counts}</p>
+    <table class="adm"><thead><tr><th>sid</th><th>participant</th><th>ws</th>
+      <th>state</th><th>last event</th><th>age</th><th></th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="7" class="muted">no sessions</td></tr>'}</tbody>
+    </table><div id="det" style="margin-top:18px"></div>`;
+}
+async function detail(sid){
+  const token = document.getElementById('tok').value.trim();
+  const r = await fetch(`/api/admin/sessions/${sid}?token=${encodeURIComponent(token)}`);
+  const d = await r.json();
+  document.getElementById('det').innerHTML =
+    `<h2>${esc(sid.slice(0,8))} — arm <b>${esc(d.arm)}</b></h2>
+     <p class="muted">condition ${esc(d.condition)}${d.two_phase ? ' (two-phase)' : ''}
+     · dir <code>${esc(d.session_dir)}</code></p>
+     <pre class="prose" style="font-size:12px;max-height:320px;overflow:auto">${
+       esc(JSON.stringify(d.events, null, 1))}</pre>`;
+}
+async function stop(sid){
+  if (!confirm('Stop this session?')) return;
+  const token = document.getElementById('tok').value.trim();
+  await fetch(`/api/admin/stop/${sid}?token=${encodeURIComponent(token)}`, {method:'POST'});
+  refresh();
+}
+setInterval(() => { if (document.getElementById('auto').checked) refresh(); }, 4000);
+refresh();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# Pinned to the versions this pipeline was built and validated against.
+# The constraints that actually matter are called out in scripts/setup_env.sh.
+
+# --- simulation ---
+robosuite==1.5.2
+mujoco==3.3.7          # NOT >=3.4: newer mujoco breaks robosuite 1.5.2 joint lookup
+
+# --- imitation learning (reference implementations) ---
+robomimic==0.3.0       # BC-RNN; install with --no-deps
+lerobot==0.4.4         # reference ACT; install with --no-deps
+
+# --- core ---
+torch==2.14.0
+torchvision==0.29.0
+numpy==1.26.4          # NOT 2.x: robosuite/robomimic paths assume numpy 1
+h5py==3.16.0
+scipy==1.15.3
+pygame==2.6.1          # operator display + keyboard capture
+matplotlib==3.10.9
+imageio==2.37.4
+imageio-ffmpeg==0.6.0
+opencv-python==4.11.0.86
+einops==0.8.2
+pyyaml
+tqdm
+termcolor
